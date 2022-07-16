@@ -1,0 +1,12 @@
+---
+openapi: 3.0.3
+info:
+  title: Metadata API
+  version: 0.1.0
+  description: Metadata API over business capabilities and data products.
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+servers:
+  - url: /
+paths: {}

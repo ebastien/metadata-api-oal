@@ -1,0 +1,79 @@
+// Metadata API over business capabilities and data products
+
+// Core primitive types
+
+# title: internal identifier
+let id = str;
+
+# title: cloud provider
+let cloud_provider = str `enum: [Azure, AWS]`;
+
+# title: cloud data service
+let data_service = str `enum: [ABFS, S3]`;
+
+# title: unicode text
+let text = str;
+
+# title: IANA media type
+let media_type = str `example: application/vnd.apache.parquet`;
+
+// Properties
+
+let self = '@id uri `title: canonical node URI`;
+
+// Objects
+
+# title: cloud native data access point
+let @access_point = {
+    'description text `example: Parquet - Azure ABFS`,
+    'provider cloud_provider,
+    'dataService data_service,
+    'grantRequest uri `title: access granting resource`,
+    'locator uri `title: native cloud resource`
+};
+
+# title: data format and semantic
+let @media = {
+    'type media_type,
+    'schema uri `title: schema resource`
+};
+
+# title: data product variant
+let @variant = {
+    'description text `example: monthly report`,
+    'media @media,
+    'accessPoints [@access_point]
+};
+
+# title: data product
+let @product = {
+    self,
+    'description text `example: finance report`,
+    'dependencies [uri `title: upstream data product`],
+    'variants [@variant]
+};
+
+// Common media types
+let json = "application/json";
+let problem = "application/problem+json";
+
+// Default representations
+let rep s = < media=json,    status=200, s  > `description: OK`
+         :: < media=problem, status=4XX, {} > `description: Bad Request`
+         :: < media=problem, status=5XX, {} > `description: Internal Error`;
+
+// Operations
+
+# description: Describes a product metadata
+# tags: [Entry]
+let get_product = get -> rep @product;
+
+// Relations
+
+let meta = /meta (
+    get_product
+);
+
+// Resources
+
+res meta;

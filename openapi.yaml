@@ -1,0 +1,118 @@
+---
+openapi: 3.0.3
+info:
+  title: Metadata API
+  description: Metadata API over business capabilities and data products.
+  license:
+    name: Apache 2.0
+    url: "https://www.apache.org/licenses/LICENSE-2.0.html"
+  version: 0.1.0
+servers:
+  - url: /
+paths:
+  /meta:
+    get:
+      tags:
+        - Entry
+      summary: Describes a product metadata
+      description: Describes a product metadata
+      operationId: get-meta
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/product"
+        4XX:
+          description: Bad Request
+          content:
+            application/problem+json:
+              schema:
+                type: object
+        5XX:
+          description: Internal Error
+          content:
+            application/problem+json:
+              schema:
+                type: object
+components:
+  schemas:
+    media:
+      title: data format and semantic
+      type: object
+      properties:
+        type:
+          example: application/vnd.apache.parquet
+          title: IANA media type
+          type: string
+        schema:
+          title: schema resource
+          type: string
+          format: uri-reference
+    access_point:
+      title: cloud native data access point
+      type: object
+      properties:
+        description:
+          example: Parquet - Azure ABFS
+          title: unicode text
+          type: string
+        provider:
+          example: Azure
+          title: cloud provider
+          type: string
+          enum:
+            - Azure
+            - AWS
+        dataService:
+          example: ABFS
+          title: cloud data service
+          type: string
+          enum:
+            - ABFS
+            - S3
+        grantRequest:
+          title: access granting resource
+          type: string
+          format: uri-reference
+        locator:
+          title: native cloud resource
+          type: string
+          format: uri-reference
+    variant:
+      title: data product variant
+      type: object
+      properties:
+        description:
+          example: monthly report
+          title: unicode text
+          type: string
+        media:
+          $ref: "#/components/schemas/media"
+        accessPoints:
+          type: array
+          items:
+            $ref: "#/components/schemas/access_point"
+    product:
+      title: data product
+      type: object
+      properties:
+        "@id":
+          title: canonical node URI
+          type: string
+          format: uri-reference
+        description:
+          example: finance report
+          title: unicode text
+          type: string
+        dependencies:
+          type: array
+          items:
+            title: upstream data product
+            type: string
+            format: uri-reference
+        variants:
+          type: array
+          items:
+            $ref: "#/components/schemas/variant"
