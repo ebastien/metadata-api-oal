@@ -23,7 +23,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/product"
+                type: object
+                properties:
+                  product:
+                    $ref: "#/components/schemas/product"
         4XX:
           description: Bad Request
           content:
