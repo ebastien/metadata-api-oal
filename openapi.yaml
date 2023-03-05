@@ -1,24 +1,23 @@
----
 openapi: 3.0.3
 info:
   title: Metadata API
   description: Metadata API over business capabilities and data products.
   license:
     name: Apache 2.0
-    url: "https://www.apache.org/licenses/LICENSE-2.0.html"
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
   version: 0.1.0
 servers:
-  - url: /
+- url: /
 paths:
-  /meta:
+  /products/{id}/meta:
     get:
       tags:
-        - Entry
+      - Meta
       summary: Describes a product metadata
       description: Describes a product metadata
-      operationId: get-meta
+      operationId: get-products-id-meta
       responses:
-        "200":
+        '200':
           description: OK
           content:
             application/json:
@@ -26,7 +25,7 @@ paths:
                 type: object
                 properties:
                   product:
-                    $ref: "#/components/schemas/product"
+                    $ref: '#/components/schemas/product'
         4XX:
           description: Bad Request
           content:
@@ -39,6 +38,14 @@ paths:
             application/problem+json:
               schema:
                 type: object
+    parameters:
+    - in: path
+      name: id
+      description: internal identifier
+      required: true
+      schema:
+        type: string
+      style: simple
 components:
   schemas:
     media:
@@ -66,15 +73,15 @@ components:
           title: cloud provider
           type: string
           enum:
-            - Azure
-            - AWS
+          - Azure
+          - AWS
         dataService:
           example: ABFS
           title: cloud data service
           type: string
           enum:
-            - ABFS
-            - S3
+          - ABFS
+          - S3
         grantRequest:
           title: access granting resource
           type: string
@@ -92,17 +99,17 @@ components:
           title: unicode text
           type: string
         media:
-          $ref: "#/components/schemas/media"
+          $ref: '#/components/schemas/media'
         accessPoints:
           type: array
           items:
-            $ref: "#/components/schemas/access_point"
+            $ref: '#/components/schemas/access_point'
     product:
       title: data product
       type: object
       properties:
-        "@id":
-          title: canonical node URI
+        '@id':
+          title: canonical resource URI
           type: string
           format: uri-reference
         description:
@@ -118,4 +125,4 @@ components:
         variants:
           type: array
           items:
-            $ref: "#/components/schemas/variant"
+            $ref: '#/components/schemas/variant'

@@ -1,10 +1,6 @@
-// Metadata API over business capabilities and data products
+// Example of a metadata API over data products
 
 // Core primitive types
-
-# title: internal identifier
-let id = str;
-
 # title: cloud provider
 let cloud_provider = str `enum: [Azure, AWS]`;
 
@@ -17,12 +13,14 @@ let text = str;
 # title: IANA media type
 let media_type = str `example: application/vnd.apache.parquet`;
 
-// Properties
+// Common properties
+let self = '@id uri `title: canonical resource URI`;
 
-let self = '@id uri `title: canonical node URI`;
+// Common parameters
+# description: internal identifier
+let internal_id = 'id str;
 
 // Objects
-
 # title: cloud native data access point
 let @access_point = {
     'description text `example: Parquet - Azure ABFS`,
@@ -62,18 +60,12 @@ let rep s = < media=json,    status=200, s  > `description: OK`
          :: < media=problem, status=4XX, {} > `description: Bad Request`
          :: < media=problem, status=5XX, {} > `description: Internal Error`;
 
-// Operations
-
-# description: Describes a product metadata
-# tags: [Entry]
-let get_product = get -> rep { 'product @product };
-
-// Relations
-
-let meta = /meta (
-    get_product
-);
+// Base product URI
+let base = /products/{internal_id};
 
 // Resources
-
-res meta;
+res (concat base /meta) on
+    # description: Describes a product metadata
+    # tags: [Meta]
+    ( get -> rep { 'product @product } )
+;
