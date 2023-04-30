@@ -1,0 +1,8 @@
+// Common media types
+let json = "application/json";
+let problem = "application/problem+json";
+
+// Default representations
+let rep s = < media=json,    status=200, s  > `description: OK`
+         :: < media=problem, status=4XX, {} > `description: Bad Request`
+         :: < media=problem, status=5XX, {} > `description: Internal Error`;

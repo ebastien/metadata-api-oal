@@ -1,0 +1,35 @@
+use "primitives.oal";
+
+// Common properties
+let self = '@id uri `title: canonical resource URI`;
+
+// Objects
+# title: cloud native data access point
+let @access_point = {
+    'description text `example: Parquet - Azure ABFS`,
+    'provider cloud_provider,
+    'dataService data_service,
+    'grantRequest uri `title: access granting resource`,
+    'locator uri `title: native cloud resource`
+};
+
+# title: data format and semantic
+let @media = {
+    'type media_type,
+    'schema uri `title: schema resource`
+};
+
+# title: data product variant
+let @variant = {
+    'description text `example: monthly report`,
+    'media @media,
+    'accessPoints [@access_point]
+};
+
+# title: data product
+let @product = {
+    self,
+    'description text `example: finance report`,
+    'dependencies [uri `title: upstream data product`],
+    'variants [@variant]
+};

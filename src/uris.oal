@@ -1,0 +1,6 @@
+// Common parameters
+# description: internal identifier
+let internal_id = 'id str;
+
+// Base product URI
+let base = /products/{internal_id};

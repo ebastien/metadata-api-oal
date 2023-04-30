@@ -1,0 +1,12 @@
+// Core primitive types
+# title: cloud provider
+let cloud_provider = str `enum: [Azure, AWS]`;
+
+# title: cloud data service
+let data_service = str `enum: [ABFS, S3]`;
+
+# title: unicode text
+let text = str;
+
+# title: IANA media type
+let media_type = str `example: application/vnd.apache.parquet`;

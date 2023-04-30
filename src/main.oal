@@ -1,0 +1,12 @@
+// Example of metadata API for data products
+
+use "uris.oal";
+use "resources.oal";
+use "responses.oal";
+
+// Resources
+res (concat base /meta) on
+    # description: Describes a product metadata
+    # tags: [Meta]
+    ( get -> rep { 'product @product } )
+;
